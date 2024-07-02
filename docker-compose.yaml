@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  copy:
+    build:
+      context: .
+      dockerfile: ./copy/Dockerfile
+    restart: no
+    volumes:
+      - ./:/mnt/
+
+  apache:
+    image: httpd:latest
+    restart: always
+    volumes:
+      - ./html:/usr/local/apache2/htdocs
+    depends_on:
+      - copy
+    ports:
+      - "8099:80"
